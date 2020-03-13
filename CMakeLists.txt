@@ -56,9 +56,9 @@ add_compile_definitions(PROJECT_DIR="${PROJECT_SOURCE_DIR}/src/")
 # General source files
 
 file(GLOB_RECURSE main_SOURCE_FILES
-        "util/*.h" "util/*.c"
+        "src/util/*.h" "src/util/*.c"
 )
 
-file(GLOB_RECURSE run_SOURCE_FILES run/main.c)
+file(GLOB_RECURSE run_SOURCE_FILES src/run/main.c)
 add_executable(main ${main_SOURCE_FILES} ${run_SOURCE_FILES})
 target_link_libraries(main ${OpenCL_LIBRARY})
