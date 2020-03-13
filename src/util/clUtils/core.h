@@ -7,5 +7,6 @@
 #include <stdbool.h>
 
 void getPlatforms(cl_platform_id *platforms, cl_int *platformCount);
+void getDevices(cl_platform_id platform, cl_device_id *devices, cl_uint *deviceCount);
 
 #endif
