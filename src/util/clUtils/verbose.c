@@ -7,6 +7,14 @@ void verbose(char *output){
     #endif
 }
 
+void verbosePlatform(cl_uint id){
+    char output[100];
+    verbose("--------------");
+    sprintf(output, " PLATFORM %d ", id);
+    verbose(output);
+    verbose("--------------");
+}
+
 // Get device details: field label
 char *_deviceInfoFieldLabel(cl_uint field){
     switch(field){
