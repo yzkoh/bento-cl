@@ -6,6 +6,9 @@
 #include <CL/cl.h>
 #include <stdbool.h>
 
-char *deviceInfoFieldLabel(cl_uint field);
+#define VERBOSE
+
+void verbose(char *output);
+char *_deviceInfoFieldLabel(cl_uint field);
 
 #endif

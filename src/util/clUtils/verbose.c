@@ -1,8 +1,14 @@
 #include <string.h>
 #include "verbose.h"
 
+void verbose(char *output){
+    #ifdef VERBOSE
+    printf("[VERBOSE] %s\n", output);
+    #endif
+}
+
 // Get device details: field label
-char *deviceInfoFieldLabel(cl_uint field){
+char *_deviceInfoFieldLabel(cl_uint field){
     switch(field){
         case CL_DEVICE_NAME: return("Devices");
         case CL_DEVICE_VERSION: return("Hardware version");
