@@ -9,4 +9,10 @@
 void getPlatforms(cl_platform_id *platforms, cl_int *platformCount);
 void getDevices(cl_platform_id platform, cl_device_id *devices, cl_uint *deviceCount);
 
+char *getDeviceSoftwareVersion(cl_device_id device);
+char *getDeviceHardwareVersion(cl_device_id device);
+char *getDeviceType(cl_device_id device);
+cl_uint getDeviceCores(cl_device_id device);
+cl_uint getDeviceFrequency(cl_device_id device);
+
 #endif
