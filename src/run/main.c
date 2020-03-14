@@ -17,7 +17,6 @@ int main(void){
     verbose("");
 
     // User input to select device, if more than one device / platform is available.
-    verboseBox("Device selection");
     selectDevice(&deviceSelected, &deviceContext);
 
 

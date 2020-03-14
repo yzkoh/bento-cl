@@ -42,6 +42,8 @@ void listAllDevices(){
 
 void selectDevice(cl_device_id *deviceSelected, cl_context *deviceContext){
 
+    verboseBox("Device selection");
+
     int select = 1;
     int autoSelect = 0;
     char output[100];
