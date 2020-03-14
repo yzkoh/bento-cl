@@ -1,13 +1,12 @@
 #include <CL/cl_platform.h>
 
 #include "core.h"
+#include "interface.h"
 #include "verbose.h"
 
 void listAllDevices(){
-    
-    char output[100];
 
-    verbose(""); // new line
+    char output[100];
 
     // Get platforms
     cl_platform_id *platforms;
@@ -46,4 +45,37 @@ void listAllDevices(){
             verboseList(j+1, k++, deviceInfoFieldLabel(CL_DEVICE_MAX_CLOCK_FREQUENCY), output);
         }
     }
+}
+
+cl_device_id selectDevice(){
+
+    int select;
+
+    verbose("Enter platform number:");
+    cl_platform_id *platforms;
+    cl_int platformCount;
+    platforms = getPlatforms(&platformCount);
+    select = requestInteger(1,1+platformCount);
+
+    verbose("Enter device number:");
+    cl_device_id *devices;
+    cl_uint deviceCount;
+    devices = getDevices(platforms[select-1], &deviceCount);
+    select = requestInteger(1,1+deviceCount);
+
+    return devices[select-1];
+}
+
+int requestInteger(int lowerBound, int upperBound){
+
+    bool valid = false;
+    int input;
+    while(!valid){
+        if(scanf("%d", &input) > 0 && input < upperBound && input >= lowerBound){
+            valid = true;
+        } else {
+            verbose("Invalid input. Please try again.");
+        }
+    }
+    return input;
 }

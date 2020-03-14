@@ -7,5 +7,7 @@
 #include <stdbool.h>
 
 void listAllDevices();
+int requestInteger(int lowerBound, int upperBound);
+cl_device_id selectDevice();
 
 #endif
