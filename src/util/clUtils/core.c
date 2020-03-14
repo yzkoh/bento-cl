@@ -1,6 +1,7 @@
 #include <CL/cl_platform.h>
 
 #include "core.h"
+#include "verbose.h"
 
 cl_platform_id *getPlatforms(cl_int *platformCount){
     clGetPlatformIDs(0, NULL, platformCount);
@@ -16,3 +17,13 @@ cl_device_id *getDevices(cl_platform_id platform, cl_uint *deviceCount){
     return devices;
 }
 
+cl_context getContext(cl_device_id **devices, cl_uint num_devices) {
+    // Create OpenCL context
+    cl_int ret;
+
+    cl_context context = NULL;
+    context = clCreateContext(NULL, num_devices, *devices, NULL, NULL, &ret);
+    verbose("[INIT] Create OpenCL context: ");
+    ((int) ret == 0) ? verbose("SUCCESS") : verbose("FAILED");
+    return context;
+}

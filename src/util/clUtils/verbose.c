@@ -3,7 +3,7 @@
 
 void verbose(char *output){
     #ifdef VERBOSE
-    printf("[VERBOSE] %s\n", output);
+    printf(".. %s\n", output);
     #endif
 }
 

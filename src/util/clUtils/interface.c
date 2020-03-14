@@ -47,7 +47,7 @@ void listAllDevices(){
     }
 }
 
-cl_device_id selectDevice(){
+void selectDevice(cl_device_id *deviceSelected, cl_context *deviceContext){
 
     int select = 1;
     char output[100];
@@ -70,7 +70,9 @@ cl_device_id selectDevice(){
         select = requestInteger(1,1+deviceCount);
     }
 
-    return devices[select-1];
+    *deviceSelected = devices[select-1];
+    devices[0] = *deviceSelected;
+    *deviceContext = getContext(&devices, 1);
 }
 
 int requestInteger(int lowerBound, int upperBound){

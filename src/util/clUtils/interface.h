@@ -8,6 +8,6 @@
 
 void listAllDevices();
 int requestInteger(int lowerBound, int upperBound);
-cl_device_id selectDevice();
+void selectDevice(cl_device_id *deviceSelected, cl_context *deviceContext);
 
 #endif
