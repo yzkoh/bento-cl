@@ -7,16 +7,20 @@ void verbose(char *output){
     #endif
 }
 
-void verbosePlatform(cl_uint id){
-    char output[100];
+void verboseBox(char *output){
     verbose("--------------");
-    sprintf(output, " PLATFORM %d ", id);
     verbose(output);
     verbose("--------------");
 }
 
+void verboseList(cl_uint order, cl_uint subOrder, char *label, char *value ){
+    char output[100];
+    sprintf(output, "%d.%d %s: %s", order, subOrder, label ,value);
+    verbose(output);
+}
+
 // Get device details: field label
-char *_deviceInfoFieldLabel(cl_uint field){
+char *deviceInfoFieldLabel(cl_uint field){
     switch(field){
         case CL_DEVICE_NAME: return("Devices");
         case CL_DEVICE_VERSION: return("Hardware version");

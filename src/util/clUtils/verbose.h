@@ -9,7 +9,8 @@
 #define VERBOSE
 
 void verbose(char *output);
-void verbosePlatform(cl_uint id);
-char *_deviceInfoFieldLabel(cl_uint field);
+void verboseBox(char *output);
+void verboseList(cl_uint order, cl_uint subOrder, char *label, char *value );
+char *deviceInfoFieldLabel(cl_uint field);
 
 #endif
