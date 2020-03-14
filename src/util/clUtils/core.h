@@ -6,9 +6,10 @@
 #include <CL/cl.h>
 #include <stdbool.h>
 
-void getPlatforms(cl_platform_id *platforms, cl_int *platformCount);
-void getDevices(cl_platform_id platform, cl_device_id *devices, cl_uint *deviceCount);
+cl_platform_id *getPlatforms(cl_int *platformCount);
+cl_device_id *getDevices(cl_platform_id platform, cl_uint *deviceCount);
 
+char *getDeviceName(cl_device_id device);
 char *getDeviceSoftwareVersion(cl_device_id device);
 char *getDeviceHardwareVersion(cl_device_id device);
 char *getDeviceType(cl_device_id device);

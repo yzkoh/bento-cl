@@ -2,16 +2,28 @@
 
 #include "core.h"
 
-void getPlatforms(cl_platform_id *platforms, cl_int *platformCount){
+cl_platform_id *getPlatforms(cl_int *platformCount){
     clGetPlatformIDs(0, NULL, platformCount);
-    platforms = (cl_platform_id *) malloc(sizeof(cl_platform_id) * (*platformCount) );
+    cl_platform_id *platforms = (cl_platform_id *) malloc(sizeof(cl_platform_id) * (*platformCount) );
     clGetPlatformIDs(*platformCount, platforms, NULL);
+    return platforms;
 }
 
-void getDevices(cl_platform_id platform, cl_device_id *devices, cl_uint *deviceCount){
+cl_device_id *getDevices(cl_platform_id platform, cl_uint *deviceCount){
     clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 0, NULL, deviceCount);
-    devices = (cl_device_id *) malloc(sizeof(cl_device_id) * (*deviceCount) );
+    cl_device_id *devices = (cl_device_id *) malloc(sizeof(cl_device_id) * (*deviceCount) );
     clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, *deviceCount, devices, NULL);
+    return devices;
+}
+
+char *getDeviceName(cl_device_id device){
+    char *value;
+    size_t valueSize;
+
+    clGetDeviceInfo(device, CL_DEVICE_NAME, 0, NULL, &valueSize);
+    value = (char *) malloc(valueSize);
+    clGetDeviceInfo(device, CL_DEVICE_NAME, valueSize, value, NULL);
+    return value;
 }
 
 char *getDeviceSoftwareVersion(cl_device_id device){
