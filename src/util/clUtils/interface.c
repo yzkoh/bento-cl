@@ -1,4 +1,5 @@
 #include <CL/cl_platform.h>
+#include <string.h>
 
 #include "core.h"
 #include "interface.h"
@@ -34,15 +35,7 @@ void listAllDevices(){
 
         if(deviceCount==0) verbose("No OpenCL device available for this platform.");
         for(cl_uint j=0; j< deviceCount; j++){
-            cl_uint k=1;
-            verboseList(j+1, k++, deviceInfoFieldLabel(CL_DEVICE_NAME), getDeviceName(devices[j]));
-            verboseList(j+1, k++, deviceInfoFieldLabel(CL_DEVICE_VERSION), getDeviceHardwareVersion(devices[j]));
-            verboseList(j+1, k++, deviceInfoFieldLabel(CL_DRIVER_VERSION), getDeviceSoftwareVersion(devices[j]));
-            verboseList(j+1, k++, deviceInfoFieldLabel(CL_DEVICE_TYPE), getDeviceType(devices[j]));
-            sprintf(output, "%u", getDeviceCores(devices[j]));
-            verboseList(j+1, k++, deviceInfoFieldLabel(CL_DEVICE_MAX_WORK_GROUP_SIZE), output);
-            sprintf(output, "%u MHz", getDeviceFrequency(devices[j]));
-            verboseList(j+1, k++, deviceInfoFieldLabel(CL_DEVICE_MAX_CLOCK_FREQUENCY), output);
+            getDeviceDetails(devices[j]);
         }
     }
 }
@@ -50,6 +43,7 @@ void listAllDevices(){
 void selectDevice(cl_device_id *deviceSelected, cl_context *deviceContext){
 
     int select = 1;
+    int autoSelect = 0;
     char output[100];
 
     cl_platform_id *platforms;
@@ -59,7 +53,7 @@ void selectDevice(cl_device_id *deviceSelected, cl_context *deviceContext){
         sprintf(output, "Enter platform number: (%d - %d)", 1, platformCount);
         verbose(output);
         select = requestInteger(1,1+platformCount);
-    }
+    } else autoSelect++;
 
     cl_device_id *devices;
     cl_uint deviceCount;
@@ -68,11 +62,21 @@ void selectDevice(cl_device_id *deviceSelected, cl_context *deviceContext){
         sprintf(output, "Enter device number: (%d - %d)", 1, deviceCount);
         verbose(output);
         select = requestInteger(1,1+deviceCount);
-    }
+    } else autoSelect++;
+
+    int ret;
+    char message[10];
 
     *deviceSelected = devices[select-1];
     devices[0] = *deviceSelected;
-    *deviceContext = getContext(&devices, 1);
+    *deviceContext = getContext(&devices, 1, &ret);
+
+    sprintf(output, "[INIT] Device selected: %s", getDeviceName(*deviceSelected));
+    verbose(output);
+
+    ((int) ret == 0) ? strcpy(message, "SUCCESS") : strcpy(message, "FAILED");
+    sprintf(output, "[INIT] Create OpenCL context: %s", message);
+    verbose(output);
 }
 
 int requestInteger(int lowerBound, int upperBound){

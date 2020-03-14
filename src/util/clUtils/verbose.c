@@ -7,6 +7,7 @@ void verbose(char *output){
     #endif
 }
 
+
 void verboseBox(char *output){
     int outputLength = strlen(output);
     verbose(_generateDash(outputLength));
@@ -14,10 +15,24 @@ void verboseBox(char *output){
     verbose(_generateDash(outputLength));
 }
 
-void verboseList(cl_uint order, cl_uint subOrder, char *label, char *value ){
+void verboseList(cl_uint order, char *label, char *value ){
     char output[100];
-    sprintf(output, "%d.%d %s: %s", order, subOrder, label ,value);
+    sprintf(output, "%d. %s: %s", order, label ,value);
     verbose(output);
+}
+
+void getDeviceDetails(cl_device_id device){
+    cl_uint k=1;
+    char output[100];
+
+    verboseList(k++, deviceInfoFieldLabel(CL_DEVICE_NAME), getDeviceName(device));
+    verboseList(k++, deviceInfoFieldLabel(CL_DEVICE_VERSION), getDeviceHardwareVersion(device));
+    verboseList(k++, deviceInfoFieldLabel(CL_DRIVER_VERSION), getDeviceSoftwareVersion(device));
+    verboseList(k++, deviceInfoFieldLabel(CL_DEVICE_TYPE), getDeviceType(device));
+    sprintf(output, "%u", getDeviceCores(device));
+    verboseList(k++, deviceInfoFieldLabel(CL_DEVICE_MAX_WORK_GROUP_SIZE), output);
+    sprintf(output, "%u MHz", getDeviceFrequency(device));
+    verboseList(k++, deviceInfoFieldLabel(CL_DEVICE_MAX_CLOCK_FREQUENCY), output);
 }
 
 char *getDeviceName(cl_device_id device){

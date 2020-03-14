@@ -10,9 +10,10 @@
 
 void verbose(char *output);
 void verboseBox(char *output);
-void verboseList(cl_uint order, cl_uint subOrder, char *label, char *value );
+void verboseList(cl_uint order, char *label, char *value );
 char *deviceInfoFieldLabel(cl_uint field);
 
+void getDeviceDetails(cl_device_id device);
 char *getDeviceName(cl_device_id device);
 char *getDeviceSoftwareVersion(cl_device_id device);
 char *getDeviceHardwareVersion(cl_device_id device);

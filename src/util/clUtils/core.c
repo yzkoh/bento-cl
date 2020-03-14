@@ -17,13 +17,9 @@ cl_device_id *getDevices(cl_platform_id platform, cl_uint *deviceCount){
     return devices;
 }
 
-cl_context getContext(cl_device_id **devices, cl_uint num_devices) {
+cl_context getContext(cl_device_id **devices, cl_uint num_devices, cl_int *ret) {
     // Create OpenCL context
-    cl_int ret;
-
     cl_context context = NULL;
-    context = clCreateContext(NULL, num_devices, *devices, NULL, NULL, &ret);
-    verbose("[INIT] Create OpenCL context: ");
-    ((int) ret == 0) ? verbose("SUCCESS") : verbose("FAILED");
+    context = clCreateContext(NULL, num_devices, *devices, NULL, NULL, ret);
     return context;
 }
