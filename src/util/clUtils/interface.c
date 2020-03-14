@@ -49,19 +49,26 @@ void listAllDevices(){
 
 cl_device_id selectDevice(){
 
-    int select;
+    int select = 1;
+    char output[100];
 
-    verbose("Enter platform number:");
     cl_platform_id *platforms;
     cl_int platformCount;
     platforms = getPlatforms(&platformCount);
-    select = requestInteger(1,1+platformCount);
+    if(platformCount > 1){
+        sprintf(output, "Enter platform number: (%d - %d)", 1, platformCount);
+        verbose(output);
+        select = requestInteger(1,1+platformCount);
+    }
 
-    verbose("Enter device number:");
     cl_device_id *devices;
     cl_uint deviceCount;
     devices = getDevices(platforms[select-1], &deviceCount);
-    select = requestInteger(1,1+deviceCount);
+    if(deviceCount > 1){
+        sprintf(output, "Enter device number: (%d - %d)", 1, deviceCount);
+        verbose(output);
+        select = requestInteger(1,1+deviceCount);
+    }
 
     return devices[select-1];
 }
