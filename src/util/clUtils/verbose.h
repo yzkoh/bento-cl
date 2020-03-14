@@ -20,4 +20,6 @@ char *getDeviceType(cl_device_id device);
 cl_uint getDeviceCores(cl_device_id device);
 cl_uint getDeviceFrequency(cl_device_id device);
 
+char *_generateDash(int len);
+
 #endif

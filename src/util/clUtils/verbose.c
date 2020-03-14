@@ -8,9 +8,10 @@ void verbose(char *output){
 }
 
 void verboseBox(char *output){
-    verbose("--------------");
+    int outputLength = strlen(output);
+    verbose(_generateDash(outputLength));
     verbose(output);
-    verbose("--------------");
+    verbose(_generateDash(outputLength));
 }
 
 void verboseList(cl_uint order, cl_uint subOrder, char *label, char *value ){
@@ -85,4 +86,15 @@ char *deviceInfoFieldLabel(cl_uint field){
         case CL_DEVICE_NATIVE_VECTOR_WIDTH_DOUBLE: return("Double precision supported");
         default: return("Unknown");
     }
+}
+
+// Generate dash 
+char *_generateDash(int len){
+    int i;
+    char *output = malloc(sizeof(char)*len);
+    for(i=0;i<len;i++){
+        output[i] = '-';
+    }
+    output[i] = '\0';
+    return output;
 }

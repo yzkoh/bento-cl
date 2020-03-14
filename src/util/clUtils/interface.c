@@ -27,7 +27,7 @@ void listAllDevices(){
     cl_uint deviceCount;
 
     for(cl_uint i=0; i< platformCount; i++){
-        sprintf(output, " PLATFORM %d ",i+1);
+        sprintf(output, "PLATFORM %d",i+1);
         verboseBox(output);
 
         devices = getDevices(platforms[i], &deviceCount);
