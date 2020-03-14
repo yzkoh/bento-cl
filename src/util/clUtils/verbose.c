@@ -7,6 +7,17 @@ void verbose(char *output){
     #endif
 }
 
+void verboseInline(char *output){
+    #ifdef VERBOSE
+    printf(".. %s", output);
+    #endif
+}
+
+void verbosePrint(char *output){
+    #ifdef VERBOSE
+    printf("%s", output);
+    #endif
+}
 
 void verboseBox(char *output){
     int outputLength = strlen(output);

@@ -9,6 +9,8 @@
 #define VERBOSE
 
 void verbose(char *output);
+void verboseInline(char *output);
+void verbosePrint(char *output);
 void verboseBox(char *output);
 void verboseList(cl_uint order, char *label, char *value );
 char *deviceInfoFieldLabel(cl_uint field);

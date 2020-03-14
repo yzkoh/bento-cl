@@ -7,8 +7,8 @@
 #include "../util/clUtils/verbose.h"
 #include "../util/clUtils/interface.h"
 
-cl_device_id deviceSelected;
-cl_context deviceContext;
+cl_device_id device;
+cl_context context;
 
 int main(void){
 
@@ -17,7 +17,7 @@ int main(void){
     verbose("");
 
     // User input to select device, if more than one device / platform is available.
-    selectDevice(&deviceSelected, &deviceContext);
+    selectDevice(&device, &context);
 
 
 
