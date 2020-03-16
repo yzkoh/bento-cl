@@ -51,11 +51,12 @@ int main(void){
     // - Create buffer
     
     struct timespec start, end;
-    uint64_t delta_us;
+    double delta_us;
     char output[100];
 
     int ret;
-    cl_ulong N = 200000000;
+    cl_ulong N = 20e6;
+    cl_int iterations = 50;
     cl_ulong local_work_size = 1;
 
     cl_ulong *host_a, *host_b, *host_res;
@@ -69,12 +70,12 @@ int main(void){
     clock_gettime(CLOCK_MONOTONIC_RAW, &start);
     
     for(int i=0;i<N;i++){
-        for(int j=0;j<50;j++){host_res[i] = host_a[i] + host_b[i];}
+        for(int j=0;j<iterations;j++){host_res[i] = host_a[i] + host_b[i];}
     }
     
     clock_gettime(CLOCK_MONOTONIC_RAW, &end);
     delta_us = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_nsec - start.tv_nsec) / 1000000;
-    sprintf(output, "Time used w/ CPU: %ld ms\n", delta_us);
+    sprintf(output, "Time used w/ CPU: %.3f ms\n", delta_us);
     verbose(output);
     
     // Reset array
@@ -100,6 +101,7 @@ int main(void){
     ret = clSetKernelArg(sum, 0, sizeof(cl_mem), &device_a);
     ret = clSetKernelArg(sum, 1, sizeof(cl_mem), &device_b);
     ret = clSetKernelArg(sum, 2, sizeof(cl_mem), &device_res);
+    ret = clSetKernelArg(sum, 3, sizeof(cl_int), &iterations);
 
     // Run function
     ret = clEnqueueNDRangeKernel(queue, sum, 1, NULL, &N, &local_work_size, 0, NULL, NULL);
@@ -110,22 +112,11 @@ int main(void){
     if(ret) verbose("FAILED");
     clock_gettime(CLOCK_MONOTONIC_RAW, &end);
     delta_us = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_nsec - start.tv_nsec) / 1000000;
-    sprintf(output, "Time used w/ GPU: %ld ms", delta_us);
+    sprintf(output, "Time used w/ GPU: %.3f ms", delta_us);
     verbose(output);
 
     // Print computed result.
     // printArray(host_res, N);
-
-
-
-
-
-
-    
-
-
-
-
 
     return 0;
 }
