@@ -24,6 +24,24 @@ cl_context getContext(cl_device_id **devices, cl_uint num_devices, int *ret) {
     return context;
 }
 
+cl_command_queue getCommandQueue(cl_context context, cl_device_id device) {
+    // Create command queue
+    cl_int ret;
+    char output[100];
+
+    cl_command_queue queue = NULL;
+    queue = clCreateCommandQueueWithProperties(context, device, NULL, &ret);
+    verboseInline("[INIT] Create command queue: ");
+    if ((int) ret == 0) {
+        verbosePrint("SUCCESS\n");
+    } else {
+        sprintf(output, "Failed to create command queue. Error %i\n", ret);
+        verbosePrint(output);
+        return NULL;
+    }
+    return queue;
+}
+
 cl_kernel getKernel(cl_device_id device, cl_context context, char **fileNames, int numFiles, char *kernelName){
     FILE *fp;
     char *source_str;
@@ -55,7 +73,7 @@ cl_kernel getKernel(cl_device_id device, cl_context context, char **fileNames, i
     // Create kernel program from source
     cl_program program = NULL;
     program = clCreateProgramWithSource(context, 1, strings, sizes, &ret);
-    verboseInline("       Create kernel program: ");
+    verboseInline("[INIT] Create kernel program: ");
     if ((int) ret == 0) {
         verbosePrint("SUCCESS\n");
     } else {
@@ -67,7 +85,7 @@ cl_kernel getKernel(cl_device_id device, cl_context context, char **fileNames, i
     cl_device_id devices[] = {device};
     // Build kernel program
     ret = clBuildProgram(program, 1, devices, NULL, NULL, NULL);
-    verboseInline("       Build kernel program: ");
+    verboseInline("[INIT] Build kernel program: ");
     if ((int) ret == 0) {
         verbosePrint("SUCCESS\n");
     } else {
@@ -91,7 +109,7 @@ cl_kernel getKernel(cl_device_id device, cl_context context, char **fileNames, i
     // Create OpenCL kernel
     cl_kernel kernel = NULL;
     kernel = clCreateKernel(program, kernelName, &ret);
-    verboseInline("       Create OpenCL kernel: ");
+    verboseInline("[INIT] Create OpenCL kernel: ");
     if ((int) ret == 0) {
         verbosePrint("SUCCESS\n");
     } else {
