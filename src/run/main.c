@@ -70,18 +70,18 @@ int main(void){
         ((cl_ulong *) b.host)[i] = i+i;
     }
 
-    // // Run with CPU.
-    // verbose("[RUN] Running on CPU ... ");
-    // clock_gettime(CLOCK_MONOTONIC_RAW, &start);
+    // Run with CPU.
+    verbose("[RUN] Running on CPU ... ");
+    clock_gettime(CLOCK_MONOTONIC_RAW, &start);
     
-    // for(int i=0;i<N;i++){
-    //     for(int j=0;j<iterations;j++){host_res[i] = host_a[i] + host_b[i];}
-    // }
+    for(int i=0;i<N;i++){
+        for(int j=0;j<iterations;j++){((cl_ulong *) res.host)[i] = ((cl_ulong *) a.host)[i] + ((cl_ulong *) b.host)[i];}
+    }
     
-    // clock_gettime(CLOCK_MONOTONIC_RAW, &end);
-    // delta_us = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_nsec - start.tv_nsec) / 1000000;
-    // sprintf(output, "Time used w/ CPU: %.3f ms\n", delta_us);
-    // verbose(output);
+    clock_gettime(CLOCK_MONOTONIC_RAW, &end);
+    delta_us = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_nsec - start.tv_nsec) / 1000000;
+    sprintf(output, "Time used w/ CPU: %.3f ms\n", delta_us);
+    verbose(output);
     
     // Reset array
     for(int i=0;i<N;i++){((cl_ulong *) res.host)[i] = 0;}
@@ -89,7 +89,7 @@ int main(void){
 
     // Run on GPU
     verbose("[RUN] Running on GPU ... ");
-    // clock_gettime(CLOCK_MONOTONIC_RAW, &start);
+    clock_gettime(CLOCK_MONOTONIC_RAW, &start);
 
     // Write variable to device
     writeVar(queue, a);
@@ -105,14 +105,15 @@ int main(void){
     ret = clEnqueueNDRangeKernel(queue, sum, 1, NULL, &N, &local_work_size, 0, NULL, NULL);
 
     // Read variable from device
-    ret = 0;
     readVar(queue, res);
-    // clock_gettime(CLOCK_MONOTONIC_RAW, &end);
-    // delta_us = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_nsec - start.tv_nsec) / 1000000;
-    // sprintf(output, "Time used w/ GPU: %.3f ms", delta_us);
-    // verbose(output);
+    clock_gettime(CLOCK_MONOTONIC_RAW, &end);
+    delta_us = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_nsec - start.tv_nsec) / 1000000;
+    sprintf(output, "Time used w/ GPU: %.3f ms", delta_us);
+    verbose(output);
 
-    // // Print computed result.
+    // Print computed result.
+    verbose("");
+    verbose("Computed results:");
     printArray(((cl_ulong *) res.host), N);
 
     return 0;
