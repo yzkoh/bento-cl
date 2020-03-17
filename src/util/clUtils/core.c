@@ -119,3 +119,15 @@ cl_kernel getKernel(cl_device_id device, cl_context context, char **fileNames, i
     }
     return kernel;
 }
+
+void bclSetKernelArg(cl_kernel kernel, int arg_count, size_t *arg_size, void **arg_value){
+    int ret;
+    for(int i=0; i<arg_count; i++){
+
+        ret = clSetKernelArg(kernel, i, arg_size[i], arg_value[i]);
+        if(ret){
+            verbose("Error.");
+            exit(0);
+        }
+    }
+}

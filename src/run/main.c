@@ -96,11 +96,10 @@ int main(void){
     writeVar(queue, b);
     writeVar(queue, res);
 
-    // - Set function argument
-    ret = clSetKernelArg(sum, 0, sizeof(cl_mem), &a.device);
-    ret = clSetKernelArg(sum, 1, sizeof(cl_mem), &b.device);
-    ret = clSetKernelArg(sum, 2, sizeof(cl_mem), &res.device);
-    ret = clSetKernelArg(sum, 3, sizeof(cl_int), &iterations);
+    // Set function argument
+    void *args[] = {&a.device, &b.device, &res.device, &iterations};
+    size_t args_size[] = {sizeof(cl_mem), sizeof(cl_mem), sizeof(cl_mem), sizeof(cl_int)}; 
+    bclSetKernelArg(sum, 4, args_size, args);
 
     // Run function
     ret = clEnqueueNDRangeKernel(queue, sum, 1, NULL, &N, &local_work_size, 0, NULL, NULL);

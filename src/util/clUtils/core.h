@@ -13,5 +13,6 @@ cl_device_id *getDevices(cl_platform_id platform, cl_uint *deviceCount);
 cl_context getContext(cl_device_id **devices, cl_uint num_devices, int *ret);
 cl_command_queue getCommandQueue(cl_context context, cl_device_id device);
 cl_kernel getKernel(cl_device_id device, cl_context context, char **fileNames, int numFiles, char *kernelName);
+void bclSetKernelArg(cl_kernel kernel, int arg_count, size_t *arg_size, void **arg_value);
 
 #endif
